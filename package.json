@@ -1,6 +1,6 @@
 {
   "name": "casino-api-videoslots",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Collect stats as total earnings, clicks, signups and first time depositors for the current month.",
   "main": "index.js",
   "scripts": {

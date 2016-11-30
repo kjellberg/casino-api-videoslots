@@ -1,10 +1,10 @@
-var Nightmare = require('nightmare');
+var nightmare = require('nightmare');
 var cheerio = require('cheerio');
 
-module.exports = function(params, callback) {
+module.exports = function( params, SuccessCallback, ErrorCallback ) {
 	this.username = params.username;
 	this.password = params.password;
-	this.nightmare = new Nightmare({ show: true, dock: true });
+	this.nightmare = new nightmare({waitTimeout: 5000});
 
 	function handleRequest( body ) {
 		$ = cheerio.load(body);
@@ -14,7 +14,7 @@ module.exports = function(params, callback) {
 		var signups = $(".tbl-report-general-monthly tbody tr:nth-child(1) td:nth-child(5)").text()
 		var ftd = $(".tbl-report-general-monthly tbody tr:nth-child(1) td:nth-child(8)").text()
 		
-		callback({
+		SuccessCallback({
 			'earnings': parseAmount(earnings),
 			'clicks': parseAmount(clicks),
 			'signups': parseAmount(signups),
@@ -23,7 +23,12 @@ module.exports = function(params, callback) {
 	}
 
 	function parseAmount(amount) {
-		return amount.replace(/[^\d.-]/g, '');
+		amount = amount.replace(/[^\d.-]/g, '');
+		if (amount > 0) {
+			return amount.replace(/[^\d.-]/g, '');
+		} else {
+			return 0;
+		}
 	}
 
 	this.nightmare
@@ -44,7 +49,14 @@ module.exports = function(params, callback) {
 			handleRequest(body);
 		})
 		.catch(function (error) {
-			console.error('Exception:', error);
+			if (error == "Error: .wait() timed out after 5000msec") {
+				error = "Wrong username, password or login limit (max once per 60 seconds) exceeded."
+			}
+			if (ErrorCallback) {
+				ErrorCallback(error);
+			} else {
+				console.log(error);
+			}
 		});
 
 };
