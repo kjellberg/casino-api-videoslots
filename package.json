@@ -1,7 +1,7 @@
 {
   "name": "casino-api-videoslots",
-  "version": "1.0.0",
-  "description": "Scrape earnings data from Videoslots affiliate panel",
+  "version": "1.0.1",
+  "description": "Collect stats as total earnings, clicks, signups and first time depositors for the current month.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
