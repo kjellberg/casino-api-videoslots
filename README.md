@@ -1,7 +1,7 @@
 # Videoslots Earnings scraper (videoslots.com)
 ## A node.js package for my "Casino Earnings"-Application
 
-Collect stats as earnings, clicks, signups and first time depositors.
+Collect stats as total earnings, clicks, signups and first time depositors for the current month.
 
 
 ### Install
